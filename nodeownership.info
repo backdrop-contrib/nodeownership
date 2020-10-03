@@ -1,0 +1,6 @@
+type = module
+name = Node Ownership
+description = Allow Users to take ownership of the node. Folk of Drupal 7 nodeownership by blisstering
+backdrop = 1.x
+
+version = 1.0.0
