@@ -33,7 +33,7 @@ class views_handler_field_nodeownership_approve_link extends views_handler_field
 
   function render_link($id, $values) {
     if (user_access('administer nodeownership')) {
-      $claim = entity_load_single('claim', $id);
+      $claim = entity_load('claim', $id);
 
       // Return N/A for anonymous and already approved claims.
       if ($claim->uid == 0 || $claim->status != 0) {

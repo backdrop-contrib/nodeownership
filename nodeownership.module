@@ -81,6 +81,7 @@ function nodeownership_permission() {
  * Implements hook_menu().
  */
 function nodeownership_menu() {
+
   $items['admin/config/nodeownership'] = array(
     'title' => 'Node Ownership',
     'description' => 'Adjust node ownership settings.',
@@ -96,7 +97,7 @@ function nodeownership_menu() {
     'page arguments' => array('nodeownership_admin_settings'),
     'page callback' => 'backdrop_get_form',
     'access arguments' => array('administer site configuration'),
-    'description' => 'Global configuration of the node ownership',
+    'description' => 'Global configuration of the node ownership.',
     'file' => 'nodeownership.admin.inc',
     'file path' => backdrop_get_path('module', 'nodeownership') . '/includes',
   );
@@ -215,7 +216,8 @@ function nodeownership_entity_info() {
     'claim' => array(
       'label' => t('Claim'),
       'entity class' => 'ClaimEntityClass',
-      'controller class' => 'EntityPlusControllerInterface',
+      /* 'controller class' => 'EntityPlusControllerInterface', */
+      'controller class' => 'EntityPlusController',
 	  'base table' => 'nodeownership',
       'entity keys' => array(
         'id' => 'id',

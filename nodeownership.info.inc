@@ -19,13 +19,6 @@ class ClaimEntityClass extends Entity {
   }
 
   /**
-  * Implements EntityInterface::label().
-  */
-  public function label() {
-    return 'label';
-  }
-
-  /**
   * Implements EntityInterface::uri().
   */
   public function uri() {
@@ -38,13 +31,13 @@ class ClaimEntityClass extends Entity {
   * Implements EntityInterface::entityType().
   */
   public function entityType() {
-    return 'nodeownership';
+    return 'claim';
   }
 
   /**
-   * Specifies the default label, which is picked up by label() by default.
-   */
-  public function defaultLabel() {
+  * Implements EntityInterface::label().
+  */
+  public function label() {
     $user  = user_load($this->uid);
     $node  = node_load($this->nid);
     $label = 'Claim #' . $this->id . ': ' . $user->name . '(uid:' . $user->uid . ') claims ' . $node->title . '(nid:' . $node->nid . ')';

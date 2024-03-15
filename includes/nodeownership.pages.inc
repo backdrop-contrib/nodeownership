@@ -125,7 +125,7 @@ backdrop_set_message('<pre>Entity types ' . print_r(entity_get_info()) . '</pre>
  */
 function _node_claim_process($type, $id) {
   module_load_include('inc', 'nodeownership', 'includes/nodeownership');
-  $claim = entity_load_single('claim', $id);
+  $claim = entity_load('claim', $id);
 
   if ($type == 'approve') {
     nodeownership_claim_approve($claim);
