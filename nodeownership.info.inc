@@ -15,7 +15,7 @@ class ClaimEntityClass extends Entity {
    * Implements EntityInterface::id().
    */
   public function id() {
-      return $this->acsteam_id;
+      return $this->id;
   }
 
   /**
@@ -25,14 +25,21 @@ class ClaimEntityClass extends Entity {
     return 'label';
   }
 
- /**
- * Implements EntityInterface::uri().
- */
- public function uri() {
-      return array(
-        'path' => 'acsteams/' . $this->id,
-      );
-    }
+  /**
+  * Implements EntityInterface::uri().
+  */
+  public function uri() {
+    return array(
+      'path' => 'nodeownership/' . $this->id,
+    );
+  }
+
+  /**
+  * Implements EntityInterface::entityType().
+  */
+  public function entityType() {
+    return 'nodeownership';
+  }
 
   /**
    * Specifies the default label, which is picked up by label() by default.
@@ -44,6 +51,4 @@ class ClaimEntityClass extends Entity {
 
     return $label;
   }
-
 }
-
