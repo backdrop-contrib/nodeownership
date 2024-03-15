@@ -9,12 +9,25 @@
  * Implements hook_install().
  */
 function nodeownership_install() {
+  // get module settings 
+  $config = config('nodeownership.settings');
+  
   $node_types = node_type_get_names();
   $all_node_types = array();
-  foreach ($node_types as $key => $value) {
+  foreach ($node_types AS $key => $value) {
     $all_node_types[$key] = 0;
   }
-  variable_set('node_types', $all_node_types);
+  $config->set('nodeownership_node_types', $all_node_types);
+  
+  $config->set('nodeownership_pending_text', t('Claim pending'));
+  $config->set('nodeownership_link_text', t('Claim'));
+  $config->set('nodeownership_pending_text', t('Claim Pending'));
+  $config->set('nodeownership_site_name', t('Backdrop'));
+    
+  
+  // Save
+  $config->save();
+  
   cache_clear_all();
 }
 
@@ -22,13 +35,13 @@ function nodeownership_install() {
  * Implements hook_uninstall().
  */
 function nodeownership_uninstall() {
-  variable_del('node_types');
-  variable_del('user_claim_subject');
-  variable_del('user_claim_body');
-  variable_del('admin_approve_accept_subject');
-  variable_del('admin_approve_accept_body');
-  variable_del('admin_approve_decline_subject');
-  variable_del('admin_approve_decline_body');
+  variable_del('nodeownership_node_types');
+  variable_del('nodeownership_user_claim_subject');
+  variable_del('nodeownership_user_claim_body');
+  variable_del('nodeownership_admin_approve_accept_subject');
+  variable_del('nodeownership_admin_approve_accept_body');
+  variable_del('nodeownership_admin_approve_decline_subject');
+  variable_del('nodeownership_admin_approve_decline_body');
 }
 
 /**
@@ -97,14 +110,18 @@ function nodeownership_schema() {
  * Implements hook_update_n().
  */
 function nodeownership_update_7100(&$sandbox) {
-  $get_node_types = variable_get('node_types');
+  $config = config('nodeownership.settings');
+  $get_node_types = $config->get('nodeownership_node_types');
   if (empty($get_node_types)) {
     $node_types = node_type_get_names();
     $all_node_types = array();
-    foreach ($node_types as $key => $value) {
+	
+    foreach ($node_types AS $key => $value) {
       $all_node_types[$key] = 0;
     }
-    variable_set('node_types', $all_node_types);
+    $config->set('nodeownership_node_types', $all_node_types);
+	// Save
+    $config->save();
   }
 }
 
@@ -123,7 +140,7 @@ function nodeownership_update_7120(&$sandbox) {
     'primary key' => array('id'),
   );
   db_add_field('nodeownership', 'id', $spec, $keys_new);
-
+  
   // Clear caches to load new menu items.
   cache_clear_all();
 }

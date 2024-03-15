@@ -10,11 +10,11 @@
  */
 function nodeownership_claim_approve($claim) {
   if ($claim->uid == 0) {
-    drupal_set_message(t('Error: you cannot approve claim #@claim_id because it was made by an anonymous user. You will have to manually create a new user account and set ownership for this request. If you want to remove it from the queue, delete it using the provided Views Bulk Operatons actions.', array('@claim_id' => $claim->id)), 'error');
+    backdrop_set_message(t('Error: you cannot approve claim #@claim_id because it was made by an anonymous user. You will have to manually create a new user account and set ownership for this request. If you want to remove it from the queue, delete it using the provided Views Bulk Operatons actions.', array('@claim_id' => $claim->id)), 'error');
     return FALSE;
   }
   elseif ($claim->status != 0) {
-    drupal_set_message(t('Error: you cannot approve claim #@claim_id because it is not a pending claim.', array('@claim_id' => $claim->id)), 'error');
+    backdrop_set_message(t('Error: you cannot approve claim #@claim_id because it is not a pending claim.', array('@claim_id' => $claim->id)), 'error');
     return FALSE;
   }
 
@@ -47,11 +47,11 @@ function nodeownership_claim_approve($claim) {
  */
 function nodeownership_claim_decline($claim) {
   if ($claim->uid == 0) {
-    drupal_set_message(t('Error: you cannot decline claim #@claim_id because it was made by an anonymyous user. If you want to remove it from the queue, delete it using the provided Views Bulk Operatons actions.', array('@claim_id' => $claim->id)), 'error');
+    backdrop_set_message(t('Error: you cannot decline claim #@claim_id because it was made by an anonymyous user. If you want to remove it from the queue, delete it using the provided Views Bulk Operatons actions.', array('@claim_id' => $claim->id)), 'error');
     return FALSE;
   }
   if ($claim->status != 0) {
-    drupal_set_message(t('Error: you cannot decline claim #@claim_id for <em>@title</e> because it is not a pending claim.', array('@claim_id' => $claim->id)), 'error');
+    backdrop_set_message(t('Error: you cannot decline claim #@claim_id for <em>@title</e> because it is not a pending claim.', array('@claim_id' => $claim->id)), 'error');
     return FALSE;
   }
 
@@ -87,14 +87,14 @@ function nodeownership_send_mail($type, $uid) {
     ->condition('uid', $uid)
     ->execute()
     ->fetchAssoc();
-  $mail = drupal_mail('nodeownership', 'admin_' . $type, $to['mail'], $language);
+  $mail = backdrop_mail('nodeownership', 'admin_' . $type, $to['mail'], $language);
 
   $message = array(
     'approve_accept' => 'Request approved. A confirmation message has been sent to user.',
     'approve_decline' => 'Request declined. A confirmation message has been sent to user.',
   );
-  drupal_set_message(t($message[$type]));
-  drupal_goto('admin/content/claims');
+  backdrop_set_message(t($message[$type]));
+  backdrop_goto('admin/content/claims');
 }
 
 /**
@@ -113,8 +113,10 @@ function nodeownership_send_mail($type, $uid) {
  *   it returns the subject and body of different mail.
  */
 function _nodeownership_mail_text($key, $language = NULL, $variables = array()) {
+  $config = config('nodeownership.settings');
+  
   $langcode = isset($language) ? $language->language : NULL;
-  if ($admin_setting = variable_get($key, FALSE)) {
+  if ($admin_setting = $config->get($key)) {
     // An admin setting overrides the default string.
     return strtr($admin_setting, $variables);
   }
@@ -149,9 +151,11 @@ function nodeownership_mail_tokens($language) {
   global $base_url;
   global $user;
 
+  $config = config('nodeownership.settings');
+  
   $tokens = array(
     '!username' => $user->name,
-    '!site' => variable_get('site_name', 'Drupal'),
+    '!site' => $config->get('nodeownership_site_name'),
     '!uri' => $base_url,
     '!uri_brief' => preg_replace('!^https?://!', '', $base_url),
     '!mailto' => $user->mail,

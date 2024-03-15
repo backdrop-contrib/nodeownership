@@ -2,8 +2,35 @@
 
 /**
  * @file
- * Provide Users to take ownership of the node.
+ * Allow Users to take ownership of the node.
  */
+
+/**
+  * Implements hook_autoload_info().
+  */
+function nodeownership_autoload_info() {
+  return array(
+    'ClassName' => 'nodeownership.info.inc',
+    'ClassName' => 'includes/nodeownership.views.inc',
+    'ClassName' => 'includes/views_handler_field_nodeownership_status.inc',
+    'ClassName' => 'includes/views_handler_filter_nodeownership_status.inc',
+    'ClassName' => 'includes/views_handler_field_nodeownership_approve_link.inc',
+    'ClassName' => 'includes/views_handler_field_nodeownership_decline_link.inc',	
+	'ClassName' => 'includes/nodeownership.pages.inc',	
+  );
+}
+
+
+/**
+ * Implements hook_config_info().
+ */
+function nodeownership_config_info() {
+  $prefixes['nodeownership.settings'] = array(
+    'label' => t('Node ownership settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
 
 /**
  * Implements hook_views_api().
@@ -11,7 +38,7 @@
 function nodeownership_views_api() {
   return array(
     'api' => 3,
-    'path' => drupal_get_path('module', 'nodeownership') . '/includes',
+    'path' => backdrop_get_path('module', 'nodeownership') . '/includes',
   );
 }
 
@@ -62,25 +89,26 @@ function nodeownership_menu() {
     'page callback' => 'system_admin_menu_block_page',
     'access arguments' => array('administer site configuration'),
     'file' => 'system.admin.inc',
-    'file path' => drupal_get_path('module', 'system'),
+    'file path' => backdrop_get_path('module', 'system'),
   );
   $items['admin/config/nodeownership/settings'] = array(
     'title' => 'Node Ownership settings',
     'page arguments' => array('nodeownership_admin_settings'),
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'access arguments' => array('administer site configuration'),
     'description' => 'Global configuration of the node ownership',
     'file' => 'nodeownership.admin.inc',
-    'file path' => drupal_get_path('module', 'nodeownership') . '/includes',
+    'file path' => backdrop_get_path('module', 'nodeownership') . '/includes',
   );
   $items['node/%node/claim'] = array(
     'page callback' => 'nodeownership_get_claim',
     'page arguments' => array(1),
     'type' => MENU_CALLBACK,
-    'title' => 'Claim this node',
+    'title' => 'Claim this page',
+	'description' => 'If you are the owner of this page you can claim it to amend and add information.',
     'access arguments' => array('access claim page'),
     'file' => 'nodeownership.pages.inc',
-    'file path' => drupal_get_path('module', 'nodeownership') . '/includes',
+    'file path' => backdrop_get_path('module', 'nodeownership') . '/includes',
   );
   $items['admin/config/nodeownership/nodeclaim/%/%'] = array(
     'page callback' => '_node_claim_process',
@@ -88,7 +116,7 @@ function nodeownership_menu() {
     'title' => 'Ownership claim confirmation',
     'access arguments' => array('administer site configuration'),
     'file' => 'nodeownership.pages.inc',
-    'file path' => drupal_get_path('module', 'nodeownership') . '/includes',
+    'file path' => backdrop_get_path('module', 'nodeownership') . '/includes',
   );
   return $items;
 }
@@ -98,14 +126,16 @@ function nodeownership_menu() {
  */
 function nodeownership_node_view($node, $view_mode = 'full') {
 
+  $config = config('nodeownership.settings');
+  
   global $user;
-  $types_to_annotate = variable_get('nodeownership_node_types', array('page'));
+  $types_to_annotate = $config->get('nodeownership_node_types', array('page'));
   if (empty($types_to_annotate[$node->type]) || !user_access('show claim link') || $user->uid == $node->uid) {
     return;
   }
 
-  $text = variable_get('nodeownership_link_text', t('Claim'));
-  $text_pending = variable_get('nodeownership_pending_text', t('Claim pending'));
+  $text = $config->get('nodeownership_link_text');
+  $text_pending = $config->get('nodeownership_pending_text');
   // If the user is anonymous.
   if (!$user->uid) {
     $link = l($text, 'user/register', array('query' => array('destination' => 'node/' . $node->nid . '/claim')));
@@ -150,6 +180,7 @@ function nodeownership_node_view($node, $view_mode = 'full') {
  * Implements hook_entity_insert().
  */
 function nodeownership_claim_insert() {
+
   global $user;
   global $language;
 
@@ -157,8 +188,8 @@ function nodeownership_claim_insert() {
   $recipient['mail'] = db_query("SELECT mail FROM {users} WHERE uid = 1")->fetchField();
   $recipient['uid']  = 1;
   $recipient['name'] = db_query("SELECT name FROM {users} WHERE uid = 1")->fetchField();
-  $mail              = drupal_mail('nodeownership', 'user_claim', $recipient['mail'], $language);
-  drupal_set_message(t('Your claim has been recorded and an email has been sent to the site administrators.'));
+  $mail              = backdrop_mail('nodeownership', 'user_claim', $recipient['mail'], $language);
+  backdrop_set_message(t('Your claim has been recorded and an email has been sent to the site administrators.'));
 }
 
 /**
@@ -176,14 +207,16 @@ function nodeownership_mail($key, &$message, $params) {
 
 /**
  * Implements hook_entity_info().
+ * Inform the base system and the Field API about one or more entity types.
+ * 
  */
 function nodeownership_entity_info() {
   return array(
     'claim' => array(
       'label' => t('Claim'),
       'entity class' => 'ClaimEntityClass',
-      'controller class' => 'EntityAPIController',
-      'base table' => 'nodeownership',
+      'controller class' => 'EntityPlusControllerInterface',
+	  'base table' => 'nodeownership',
       'entity keys' => array(
         'id' => 'id',
       ),

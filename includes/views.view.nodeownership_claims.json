@@ -1,0 +1,460 @@
+{
+    "_config_name": "views.view.nodeownership_claims",
+    "name": "nodeownership_claims",
+    "description": "List of node ownership claims",
+    "tag": "default",
+    "disabled": false,
+    "base_table": "nodeownership",
+    "human_name": "Node Ownership claims",
+    "core": 0,
+    "display": {
+        "default": {
+            "display_title": "Master",
+            "display_plugin": "default",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": {
+                        "query_comment": false
+                    }
+                },
+                "title": "Node ownership claims",
+                "access": {
+                    "type": "perm",
+                    "perm": "administer nodeownership"
+                },
+                "cache": {
+                    "type": "none"
+                },
+                "exposed_form": {
+                    "type": "basic"
+                },
+                "pager": {
+                    "type": "full",
+                    "options": {
+                        "items_per_page": "50"
+                    }
+                },
+                "style_plugin": "table",
+                "style_options": {
+                    "columns": {
+                        "uid": "uid",
+                        "nid": "nid",
+                        "contact": "contact",
+                        "notes": "notes",
+                        "timestamp": "timestamp",
+                        "status": "status",
+                        "accept_link": "accept_link",
+                        "decline_link": "decline_link"
+                    },
+                    "default": "-1",
+                    "info": {
+                        "uid": {
+                            "sortable": 1,
+                            "default_sort_order": "asc",
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "nid": {
+                            "sortable": 1,
+                            "default_sort_order": "asc",
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "contact": {
+                            "sortable": 0,
+                            "default_sort_order": "asc",
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "notes": {
+                            "sortable": 0,
+                            "default_sort_order": "asc",
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "timestamp": {
+                            "sortable": 0,
+                            "default_sort_order": "asc",
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "status": {
+                            "sortable": 1,
+                            "default_sort_order": "asc",
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "accept_link": {
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        },
+                        "decline_link": {
+                            "align": "",
+                            "separator": "",
+                            "empty_column": 0
+                        }
+                    },
+                    "override": 1,
+                    "sticky": 1,
+                    "empty_table": 0
+                },
+                "fields": {
+                    "views_bulk_operations": {
+                        "id": "views_bulk_operations",
+                        "table": "nodeownership",
+                        "field": "views_bulk_operations",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "vbo": {
+                            "entity_load_capacity": "10",
+                            "operations": {
+                                "action::nodeownership_approve_claim_action": {
+                                    "selected": 1,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                },
+                                "action::nodeownership_decline_claim_action": {
+                                    "selected": 1,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                },
+                                "action::views_bulk_operations_delete_item": {
+                                    "selected": 1,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                },
+                                "action::system_message_action": {
+                                    "selected": 0,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                },
+                                "action::views_bulk_operations_script_action": {
+                                    "selected": 0,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                },
+                                "action::views_bulk_operations_modify_action": {
+                                    "selected": 0,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": "",
+                                    "settings": {
+                                        "show_all_tokens": 1,
+                                        "display_values": {
+                                            "_all_": "_all_"
+                                        }
+                                    }
+                                },
+                                "action::views_bulk_operations_argument_selector_action": {
+                                    "selected": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": "",
+                                    "settings": {
+                                        "url": ""
+                                    }
+                                },
+                                "action::system_goto_action": {
+                                    "selected": 0,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                },
+                                "action::system_send_email_action": {
+                                    "selected": 0,
+                                    "use_queue": 0,
+                                    "skip_confirmation": 0,
+                                    "override_label": 0,
+                                    "label": ""
+                                }
+                            },
+                            "enable_select_all_pages": 1,
+                            "display_type": "0",
+                            "display_result": 1,
+                            "merge_single_action": 0,
+                            "force_single": 0
+                        }
+                    },
+                    "uid": {
+                        "id": "uid",
+                        "table": "nodeownership",
+                        "field": "uid",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "empty": "Anonymous",
+                        "hide_empty": 0,
+                        "empty_zero": 1,
+                        "hide_alter_empty": 1,
+                        "link_to_user": 1
+                    },
+                    "nid": {
+                        "id": "nid",
+                        "table": "nodeownership",
+                        "field": "nid",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "link_to_node": 0
+                    },
+                    "contact": {
+                        "id": "contact",
+                        "table": "nodeownership",
+                        "field": "contact",
+                        "label": "Contact Information",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1
+                    },
+                    "notes": {
+                        "id": "notes",
+                        "table": "nodeownership",
+                        "field": "notes",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1
+                    },
+                    "timestamp": {
+                        "id": "timestamp",
+                        "table": "nodeownership",
+                        "field": "timestamp",
+                        "label": "Claim timestamp",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "date_format": "privatemsg_current_day"
+                    },
+                    "status": {
+                        "id": "status",
+                        "table": "nodeownership",
+                        "field": "status",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1
+                    },
+                    "approve_link": {
+                        "id": "approve_link",
+                        "table": "nodeownership",
+                        "field": "approve_link",
+                        "label": "Approve",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "text": "Approve"
+                    },
+                    "decline_link": {
+                        "id": "decline_link",
+                        "table": "nodeownership",
+                        "field": "decline_link",
+                        "label": "Decline",
+                        "alter": {
+                            "alter_text": 0,
+                            "make_link": 0,
+                            "absolute": 0,
+                            "replace_spaces": 0,
+                            "trim_whitespace": 0,
+                            "nl2br": 0,
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "html": 0
+                        },
+                        "element_label_colon": 1,
+                        "element_default_classes": 1,
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1
+                    }
+                },
+                "filters": {
+                    "status": {
+                        "id": "status",
+                        "table": "nodeownership",
+                        "field": "status",
+                        "value": "0",
+                        "exposed": true,
+                        "expose": {
+                            "operator_id": "status_op",
+                            "label": "Status",
+                            "operator": "status_op",
+                            "identifier": "status",
+                            "multiple": false
+                        }
+                    }
+                }
+            }
+        },
+        "page": {
+            "display_title": "Page",
+            "display_plugin": "page",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": []
+                },
+                "path": "admin/content/claims",
+                "menu": {
+                    "type": "tab",
+                    "title": "Node Ownership Claims",
+                    "weight": "0",
+                    "context": 0
+                }
+            }
+        }
+    }
+}

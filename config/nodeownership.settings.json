@@ -1,0 +1,13 @@
+{
+    "_config_name": "nodeownership.settings",
+    "pending_text": "Claim Pending",
+    "link_text": "Claim",
+    "site_name": "Backdrop",
+    "key": [],
+    "node_types": {
+        "member_pages": 0,
+        "page": 0,
+        "post": 0,
+        "webform": 0
+    }
+}

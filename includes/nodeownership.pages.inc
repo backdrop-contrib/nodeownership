@@ -21,19 +21,19 @@ function nodeownership_get_claim($node) {
   $result_declined = "SELECT nid FROM {nodeownership} WHERE uid = :uid AND nid= :nid AND status = 2";
 
   if (db_query($result_claimed, array(':nid' => $node->nid))->fetchField()) {
-    drupal_set_message(t('Someone else has claimed this node.'));
-    drupal_goto('node/' . $node->nid);
+    backdrop_set_message(t('Someone else has claimed this node.'));
+    backdrop_goto('node/' . $node->nid);
   }
   elseif (db_query($result_exist, array(':nid' => $node->nid, ':uid' => $user->uid))->fetchField()) {
-    drupal_set_message(t('Your claim request is being reviewed.'));
-    drupal_goto('node/' . $node->nid);
+    backdrop_set_message(t('Your claim request is being reviewed.'));
+    backdrop_goto('node/' . $node->nid);
   }
   elseif (db_query($result_declined, array(':nid' => $node->nid, ':uid' => $user->uid))->fetchField()) {
-    drupal_set_message(t('Your claim request for this node has already been declined.'));
-    drupal_goto('node/' . $node->nid);
+    backdrop_set_message(t('Your claim request for this node has already been declined.'));
+    backdrop_goto('node/' . $node->nid);
   }
   else {
-    $content = drupal_get_form('nodeownership_claim_form', $node->nid);
+    $content = backdrop_get_form('nodeownership_claim_form', $node->nid);
     return $content;
   }
 }
@@ -53,7 +53,7 @@ function nodeownership_claim_form($form, &$form_state, $nid) {
   $form          = array();
   $claimed_node = node_load($nid);
   $page_title = t('Claim control of:') . ' ' . $claimed_node->title;
-  drupal_set_title($page_title);
+  backdrop_set_title($page_title);
   $form['claim'] = array(
     '#type' => 'fieldset',
     '#title' => t('Claim Details'),
@@ -79,6 +79,8 @@ function nodeownership_claim_form($form, &$form_state, $nid) {
     '#type' => 'submit',
     '#value' => t('Submit Claim'),
   );
+  
+  
   return $form;
 }
 
@@ -101,9 +103,16 @@ function nodeownership_claim_form_submit($form, &$form_state) {
     'status' => 0,
     'timestamp' => REQUEST_TIME,
   );
-  entity_save('claim', $claim);
 
-  return drupal_goto('node/' . $form_state['values']['nid']);
+  $returnvalue = entity_plus_save('claim', $claim);
+  
+
+backdrop_set_message('<pre>$claim ' . print_r($claim, true) . '</pre>');
+backdrop_set_message('Return value: '.$returnvalue . '</pre>');
+backdrop_set_message('<pre>Entity types ' . print_r(entity_get_info()) . '</pre>');
+
+
+  return backdrop_goto('node/' . $form_state['values']['nid']);
 }
 
 /**
@@ -125,7 +134,7 @@ function _node_claim_process($type, $id) {
     nodeownership_claim_decline($claim);
   }
   else {
-    drupal_set_message(t("Invalid Url!!"));
-    drupal_goto('admin/content/claims');
+    backdrop_set_message(t("Invalid Url!!"));
+    backdrop_goto('admin/content/claims');
   }
 }

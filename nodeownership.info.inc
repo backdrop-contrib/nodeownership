@@ -19,5 +19,6 @@ class ClaimEntityClass extends Entity {
 
     return $label;
   }
+
 }
 
