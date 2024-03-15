@@ -15,8 +15,8 @@ function nodeownership_autoload_info() {
     'ClassName' => 'includes/views_handler_field_nodeownership_status.inc',
     'ClassName' => 'includes/views_handler_filter_nodeownership_status.inc',
     'ClassName' => 'includes/views_handler_field_nodeownership_approve_link.inc',
-    'ClassName' => 'includes/views_handler_field_nodeownership_decline_link.inc',	
-	'ClassName' => 'includes/nodeownership.pages.inc',	
+    'ClassName' => 'includes/views_handler_field_nodeownership_decline_link.inc',
+	  'ClassName' => 'includes/nodeownership.pages.inc',
   );
 }
 
@@ -127,7 +127,7 @@ function nodeownership_menu() {
 function nodeownership_node_view($node, $view_mode = 'full') {
 
   $config = config('nodeownership.settings');
-  
+
   global $user;
   $types_to_annotate = $config->get('nodeownership_node_types', array('page'));
   if (empty($types_to_annotate[$node->type]) || !user_access('show claim link') || $user->uid == $node->uid) {
@@ -171,7 +171,7 @@ function nodeownership_node_view($node, $view_mode = 'full') {
         'html' => TRUE,
       ),
     ),
-    '#attributes' => array('class' => array('links', 'inline')),
+    '#attributes' => array('class' => array('links', 'inline', 'claimownership')),
     '#weight' => 10,
   );
 }
@@ -208,7 +208,7 @@ function nodeownership_mail($key, &$message, $params) {
 /**
  * Implements hook_entity_info().
  * Inform the base system and the Field API about one or more entity types.
- * 
+ *
  */
 function nodeownership_entity_info() {
   return array(

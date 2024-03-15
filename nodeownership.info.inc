@@ -5,9 +5,34 @@
  */
 class ClaimEntityClass extends Entity {
 
+  public $id;
+
   public function __construct(array $values = array(), $entityType = NULL) {
     parent::__construct($values, 'claim');
   }
+
+  /**
+   * Implements EntityInterface::id().
+   */
+  public function id() {
+      return $this->acsteam_id;
+  }
+
+  /**
+  * Implements EntityInterface::label().
+  */
+  public function label() {
+    return 'label';
+  }
+
+ /**
+ * Implements EntityInterface::uri().
+ */
+ public function uri() {
+      return array(
+        'path' => 'acsteams/' . $this->id,
+      );
+    }
 
   /**
    * Specifies the default label, which is picked up by label() by default.

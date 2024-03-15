@@ -50,9 +50,9 @@ function nodeownership_get_claim($node) {
  *   Return form element.
  */
 function nodeownership_claim_form($form, &$form_state, $nid) {
-  $form          = array();
+  $form = array();
   $claimed_node = node_load($nid);
-  $page_title = t('Claim control of:') . ' ' . $claimed_node->title;
+  $page_title = t('Claim control of: ') . ' ' . $claimed_node->title;
   backdrop_set_title($page_title);
   $form['claim'] = array(
     '#type' => 'fieldset',
@@ -79,8 +79,8 @@ function nodeownership_claim_form($form, &$form_state, $nid) {
     '#type' => 'submit',
     '#value' => t('Submit Claim'),
   );
-  
-  
+
+
   return $form;
 }
 
@@ -105,7 +105,7 @@ function nodeownership_claim_form_submit($form, &$form_state) {
   );
 
   $returnvalue = entity_plus_save('claim', $claim);
-  
+
 
 backdrop_set_message('<pre>$claim ' . print_r($claim, true) . '</pre>');
 backdrop_set_message('Return value: '.$returnvalue . '</pre>');
